@@ -29,6 +29,16 @@ public class Player : MonoBehaviour
 	private float _lineLength;
 	[SerializeField]
 	private bool _isGround;
+	[SerializeField]
+	private float _maxSpeed;
+	[SerializeField]
+	private float _currentSpeed;
+	[SerializeField]
+	private BusinessCard _businessCardPrefab;
+	[SerializeField]
+	private float _playerPosion;
+
+
 
 
 	/// <summary>
@@ -47,6 +57,26 @@ public class Player : MonoBehaviour
 	}
 
 
+	public void Attack()
+	{
+
+
+		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
+			return;   
+		}
+		if (GameManager.Instance.State == GameManager.GameState.GAME_OVER) {
+			return;   
+		}
+
+		BusinessCard b = Instantiate (_businessCardPrefab);
+		//カードの出現位置をプレイヤーの少し前の位置に設定
+		Vector3 cardPos = transform.TransformPoint (new Vector3 (0.6f, 0)); 
+		//位置を設定
+		b.transform.position = cardPos;
+
+		b.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (1000f, 0));
+	}
+
 
 
 	/// <summary>
@@ -64,6 +94,12 @@ public class Player : MonoBehaviour
 		//線がSceneビューで見れるようにデバッグ表示
 		Debug.DrawLine (startPos, endPos);
 
+		//現在の速度を測定
+		_currentSpeed = _rigidbody2d.velocity.x;
+
+		//現在の場所
+		_playerPosion = this.transform.position.x;
+
 
 		}
 
@@ -77,15 +113,19 @@ public class Player : MonoBehaviour
 			//お金を加算
 			this.money += 1000;
 
-			this.moneyText.GetComponent<Text> ().text = this.money.ToString();
+			this.moneyText.GetComponent<Text> ().text = this.money.ToString ();
 
 			Destroy (other.gameObject);
 
 		}
 
 
+			
 
 	}
+
+
+
 
 
 	private void OnRightButton ()
@@ -98,8 +138,16 @@ public class Player : MonoBehaviour
 			return;   
 		}
 
-		_rigidbody2d.AddForce (Vector2.right * _moveForce);
-			
+		//_rigidbody2d.AddForce (Vector2.right * _moveForce);
+
+		//最大速度と現在速度の差分(絶対値Ads)
+		float diff = Mathf.Abs (_maxSpeed - _rigidbody2d.velocity.x);
+		//0 ~ 1の値が入る。現在のスピードが最高速度に近づくほどcoefficientの値は0に近づく。
+		float coefficient = Mathf.Min (diff, 1); 
+		//与える力 
+		Vector3 addForce = transform.right * _moveForce * coefficient;
+		//力を与える
+		_rigidbody2d.AddForce (addForce);
 			
 
 }
@@ -110,7 +158,8 @@ public class Player : MonoBehaviour
 
 	{
 
-		_rigidbody2d.AddForce (Vector2.down * _stopForce);
+
+		//_rigidbody2d.velocity = Vector2.zero;
 
 	}
 

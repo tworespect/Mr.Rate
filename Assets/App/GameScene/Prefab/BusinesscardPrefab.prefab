@@ -22,6 +22,7 @@ GameObject:
   - 212: {fileID: 212000012972786816}
   - 50: {fileID: 50000010625156294}
   - 58: {fileID: 58000011672444844}
+  - 114: {fileID: 114000014099240732}
   m_Layer: 0
   m_Name: BusinesscardPrefab
   m_TagString: Untagged
@@ -53,12 +54,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &58000011672444844
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -72,7 +73,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
+--- !u!114 &114000014099240732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012483311958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727d5a60252514719859a92faca9a584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212000012972786816
 SpriteRenderer:
   m_ObjectHideFlags: 1

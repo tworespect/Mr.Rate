@@ -18,7 +18,7 @@ public class PlayerCamera : MonoBehaviour
 	void Update ()
 	{
 		transform.localPosition = new Vector3 (
-			_player.transform.localPosition.x,
+			_player.transform.localPosition.x +5,
 			transform.localPosition.y,
 			transform.localPosition.z);
 	}

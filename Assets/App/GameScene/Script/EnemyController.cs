@@ -28,7 +28,6 @@ public class EnemyController : MonoBehaviour {
 
 			_rigidbody2d.AddForce (Vector2.left * _move2Force);
 
-			Destroy (this.gameObject);
 		}
 
 

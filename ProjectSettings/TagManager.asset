@@ -16,6 +16,7 @@ TagManager:
   - moneyTag
   - BusTag
   - MainTag
+  - EnemyTag
   layers:
   - Default
   - TransparentFX
