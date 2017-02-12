@@ -44,12 +44,13 @@ public class Player : MonoBehaviour
 	/// <summary>
 	/// 何秒ごとに点滅させるか 
 	/// </summary>
+	[SerializeField]
 	private float _blinkInterval = 0.2f;
 	/// <summary>
 	/// 点滅させるための時間のカウンター 
 	/// </summary>
+	[SerializeField]
 	private float _blinkSecondCounter;
-
 
 
 
@@ -66,11 +67,21 @@ public class Player : MonoBehaviour
 		this.timeText = GameObject.Find("TimeText");
 		this.moneyText = GameObject.Find("MoneyText");
 
+	
+
+
 	}
 
 
 	public void Attack()
 	{
+
+
+		if (_isBusEnter) {
+
+			return;
+
+		}
 
 
 		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
@@ -108,6 +119,8 @@ public class Player : MonoBehaviour
 				//Sprite Rendererのアクティブを切り替える
 				_playerSprite.enabled = !_playerSprite.enabled;
 			}
+
+
 
 		}
 
@@ -162,6 +175,8 @@ public class Player : MonoBehaviour
 
 	private void BlinkEnd ()
 	{
+		_playerSprite.enabled = true;
+
 		_isBusEnter = false;
 	}
 
@@ -170,6 +185,10 @@ public class Player : MonoBehaviour
 
 	private void OnRightButton ()
 	{
+
+		if (_isBusEnter) {
+			return;
+		}
 		//ポーズならリターン
 		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
 			return;   
@@ -180,7 +199,7 @@ public class Player : MonoBehaviour
 
 		//_rigidbody2d.AddForce (Vector2.right * _moveForce);
 
-		//最大速度と現在速度の差分(絶対値Ads)
+		//最大速度と現在速度の差分(絶対値Abs)
 		float diff = Mathf.Abs (_maxSpeed - _rigidbody2d.velocity.x);
 		//0 ~ 1の値が入る。現在のスピードが最高速度に近づくほどcoefficientの値は0に近づく。
 		float coefficient = Mathf.Min (diff, 1); 
@@ -188,9 +207,20 @@ public class Player : MonoBehaviour
 		Vector3 addForce = transform.right * _moveForce * coefficient;
 		//力を与える
 		_rigidbody2d.AddForce (addForce);
-			
+
+
+		if (_currentSpeed > 15) {
+
+
+			_rigidbody2d.AddForce (Vector3.left * _stopForce);
+
+
+		}
 
 }
+
+
+
 
 
 
@@ -208,6 +238,13 @@ public class Player : MonoBehaviour
 
 	private void OnJumpButton ()
 	{
+
+		if (_isBusEnter) {
+
+			return;
+
+		}
+
 		//ポーズならリターン
 		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
 			return;      
@@ -217,6 +254,7 @@ public class Player : MonoBehaviour
 		}
 
 		if (_isGround) {
+			
 			_rigidbody2d.AddForce (Vector2.up * _jumpForce);
 		}
 

@@ -26,10 +26,7 @@ public class CountDownTimer : MonoBehaviour
 	void Update ()
 	{
 
-		//ポーズならリターン
-		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
-			return;    
-		}
+
 
 		if (0 < time) {
 			time -= Time.deltaTime;
@@ -43,6 +40,11 @@ public class CountDownTimer : MonoBehaviour
 		if (time < 0) {
 
 			this.gameOverText.GetComponent<Text> ().text = "遅刻！！！" ;
+
+
+			if (GameManager.Instance.State == GameManager.GameState.GAME_OVER) {
+				return;   
+			}
 	
 	}
 
