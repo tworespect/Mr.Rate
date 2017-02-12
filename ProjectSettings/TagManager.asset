@@ -17,6 +17,7 @@ TagManager:
   - BusTag
   - MainTag
   - EnemyTag
+  - CardTag
   layers:
   - Default
   - TransparentFX

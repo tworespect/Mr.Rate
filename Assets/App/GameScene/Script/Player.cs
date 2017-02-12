@@ -37,6 +37,18 @@ public class Player : MonoBehaviour
 	private BusinessCard _businessCardPrefab;
 	[SerializeField]
 	private float _playerPosion;
+	[SerializeField]
+	private bool _isBusEnter;
+	[SerializeField]
+	private SpriteRenderer _playerSprite;
+	/// <summary>
+	/// 何秒ごとに点滅させるか 
+	/// </summary>
+	private float _blinkInterval = 0.2f;
+	/// <summary>
+	/// 点滅させるための時間のカウンター 
+	/// </summary>
+	private float _blinkSecondCounter;
 
 
 
@@ -85,6 +97,22 @@ public class Player : MonoBehaviour
 	void Update ()
 	{
 
+		//バスと衝突したら
+		if (_isBusEnter) {
+			//時間をカウント
+			_blinkSecondCounter += Time.deltaTime;
+			//0.2秒を超えたら
+			if (_blinkSecondCounter > _blinkInterval) {
+				//０に初期化
+				_blinkSecondCounter = 0;
+				//Sprite Rendererのアクティブを切り替える
+				_playerSprite.enabled = !_playerSprite.enabled;
+			}
+
+		}
+
+
+
 		//線の始点
 		Vector3 startPos = transform.position;
 		//終点
@@ -103,6 +131,9 @@ public class Player : MonoBehaviour
 
 		}
 
+	/// Blinks the end.
+	/// </summary>
+
 
 
 
@@ -117,6 +148,11 @@ public class Player : MonoBehaviour
 
 			Destroy (other.gameObject);
 
+		}else if (other.gameObject.tag == "EnemyTag") {
+			//バスと衝突
+			_isBusEnter = true;
+			//２秒後にBlinkEndを呼ぶ
+			Invoke ("BlinkEnd", 2.0f);	
 		}
 
 
@@ -124,6 +160,10 @@ public class Player : MonoBehaviour
 
 	}
 
+	private void BlinkEnd ()
+	{
+		_isBusEnter = false;
+	}
 
 
 
