@@ -52,6 +52,17 @@ public class Player : MonoBehaviour
 	[SerializeField]
 	private float _blinkSecondCounter;
 
+	private float interval = 0.5f;
+	private float timeCount = 0.0f;
+
+	private int spriteIndex = 0;
+
+	// エディタ上からアニメーション用のスプライトを必要数渡す（並び順でアニメーションする
+	public Sprite[] walkSprites;
+
+	// キャラクターにアタッチされているSpriteRendererを渡す
+	public SpriteRenderer spriteRenderer; 
+
 
 
 	/// <summary>
@@ -97,7 +108,7 @@ public class Player : MonoBehaviour
 		//位置を設定
 		b.transform.position = cardPos;
 
-		b.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (1000f, 0));
+		b.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (800f, 0));
 	}
 
 
@@ -120,11 +131,8 @@ public class Player : MonoBehaviour
 				_playerSprite.enabled = !_playerSprite.enabled;
 			}
 
-
-
 		}
-
-
+			
 
 		//線の始点
 		Vector3 startPos = transform.position;
@@ -140,6 +148,8 @@ public class Player : MonoBehaviour
 
 		//現在の場所
 		_playerPosion = this.transform.position.x;
+
+
 
 
 		}
@@ -215,6 +225,19 @@ public class Player : MonoBehaviour
 			_rigidbody2d.AddForce (Vector3.left * _stopForce);
 
 
+		}
+
+
+
+		timeCount += Time.deltaTime;
+
+		if (timeCount > interval) {
+
+			spriteIndex = (spriteIndex + 1) % walkSprites.Length;
+
+			spriteRenderer.sprite = walkSprites [spriteIndex];
+
+			timeCount = 0.0f;
 		}
 
 }
