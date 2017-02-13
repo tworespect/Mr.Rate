@@ -18,8 +18,7 @@ public class Player : MonoBehaviour
 	private float _stopForce;
 	[SerializeField]
 	private float _jumpForce;
-	[SerializeField]
-	private GameObject timeText;
+
 
 	[SerializeField]
 	private GameObject moneyText;
@@ -75,7 +74,7 @@ public class Player : MonoBehaviour
 		_jumpButton.OnDownHandler += OnJumpButton;
 
 
-		this.timeText = GameObject.Find("TimeText");
+
 		this.moneyText = GameObject.Find("MoneyText");
 
 	
@@ -175,7 +174,7 @@ public class Player : MonoBehaviour
 			//バスと衝突
 			_isBusEnter = true;
 			//２秒後にBlinkEndを呼ぶ
-			Invoke ("BlinkEnd", 2.0f);	
+			Invoke ("BlinkEnd", 3.0f);	
 		}
 
 
