@@ -50,18 +50,29 @@ public class Player : MonoBehaviour
 	/// </summary>
 	[SerializeField]
 	private float _blinkSecondCounter;
-
-	private float interval = 0.5f;
+	[SerializeField]
+	private float interval = 0.01f;
+	[SerializeField]
 	private float timeCount = 0.0f;
 
+
+	//private Animator animator;
+
+	[SerializeField]
 	private int spriteIndex = 0;
 
+	[SerializeField]
 	// エディタ上からアニメーション用のスプライトを必要数渡す（並び順でアニメーションする
 	public Sprite[] walkSprites;
 
+	[SerializeField]
 	// キャラクターにアタッチされているSpriteRendererを渡す
 	public SpriteRenderer spriteRenderer; 
 
+	[SerializeField]
+	public int RemainCard;
+	[SerializeField]
+	private GameObject cardText;
 
 
 	/// <summary>
@@ -76,12 +87,22 @@ public class Player : MonoBehaviour
 
 
 		this.moneyText = GameObject.Find("MoneyText");
+		this.cardText = GameObject.Find("CardText");
 
-	
+
+		this.cardText.GetComponent<Text> ().text = this.RemainCard.ToString ();
+
+
+		//animator = this.gameObject.GetComponent<Animator>();
 
 
 	}
 
+	/*
+	void Walk() {
+		animator.SetBool("Ground", true);
+	}
+*/
 
 	public void Attack()
 	{
@@ -101,13 +122,22 @@ public class Player : MonoBehaviour
 			return;   
 		}
 
-		BusinessCard b = Instantiate (_businessCardPrefab);
-		//カードの出現位置をプレイヤーの少し前の位置に設定
-		Vector3 cardPos = transform.TransformPoint (new Vector3 (0.6f, 0)); 
-		//位置を設定
-		b.transform.position = cardPos;
+		if (0 < RemainCard) {
+			RemainCard -= 1;
+			BusinessCard b = Instantiate (_businessCardPrefab);
+		
 
-		b.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (800f, 0));
+			//カードの出現位置をプレイヤーの少し前の位置に設定
+			Vector3 cardPos = transform.TransformPoint (new Vector3 (0.6f, 0)); 
+			//位置を設定
+			b.transform.position = cardPos;
+
+			b.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (800f, 0));
+
+			this.cardText.GetComponent<Text> ().text = this.RemainCard.ToString ();
+
+		}
+
 	}
 
 
@@ -218,7 +248,7 @@ public class Player : MonoBehaviour
 		_rigidbody2d.AddForce (addForce);
 
 
-		if (_currentSpeed > 15) {
+		if (_currentSpeed > 11) {
 
 
 			_rigidbody2d.AddForce (Vector3.left * _stopForce);
@@ -238,6 +268,7 @@ public class Player : MonoBehaviour
 
 			timeCount = 0.0f;
 		}
+	
 
 }
 
