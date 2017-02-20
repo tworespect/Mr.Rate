@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
 	private float _stopForce;
 	[SerializeField]
 	private float _jumpForce;
+	[SerializeField]
+	private float _intromoveForce;
 
 
 	[SerializeField]
@@ -74,12 +76,20 @@ public class Player : MonoBehaviour
 	[SerializeField]
 	private GameObject cardText;
 
+	[SerializeField]
+	public int playerLife;
+	[SerializeField]
+	private GameObject lifeText;
+
+
 
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
 	void Start ()
 	{
+
+	
 		_rightButton.OnDownHandler += OnRightButton;
 		_rightButton.OnUpHandler += UpRightButton;
 		_jumpButton.OnDownHandler += OnJumpButton;
@@ -88,13 +98,13 @@ public class Player : MonoBehaviour
 
 		this.moneyText = GameObject.Find("MoneyText");
 		this.cardText = GameObject.Find("CardText");
+		this.lifeText = GameObject.Find ("LifeText");
 
 
 		this.cardText.GetComponent<Text> ().text = this.RemainCard.ToString ();
-
-
+		this.lifeText.GetComponent<Text> ().text = ("x") + this.playerLife.ToString ();
+	
 		//animator = this.gameObject.GetComponent<Animator>();
-
 
 	}
 
@@ -117,7 +127,9 @@ public class Player : MonoBehaviour
 
 		}
 
-
+		if (GameManager.Instance.State == GameManager.GameState.INTRO) {
+			return;   
+		}
 		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
 			return;   
 		}
@@ -131,7 +143,7 @@ public class Player : MonoBehaviour
 		
 
 			//カードの出現位置をプレイヤーの少し前の位置に設定
-			Vector3 cardPos = transform.TransformPoint (new Vector3 (0.1f, 0)); 
+			Vector3 cardPos = transform.TransformPoint (new Vector3 (0.2f, 0)); 
 			//位置を設定
 			b.transform.position = cardPos;
 
@@ -181,8 +193,23 @@ public class Player : MonoBehaviour
 		//現在の場所
 		_playerPosion = this.transform.position.x;
 
+		if (GameManager.Instance.State == GameManager.GameState.INTRO) {
+		
+			_rigidbody2d.AddForce (Vector2.right * _intromoveForce);
+
+			timeCount += Time.deltaTime;
+
+			if (timeCount > interval) {
+
+				spriteIndex = (spriteIndex + 1) % walkSprites.Length;
+
+				spriteRenderer.sprite = walkSprites [spriteIndex];
+
+				timeCount = 0.0f;
+			}
 
 
+		}
 
 		}
 
@@ -231,6 +258,11 @@ public class Player : MonoBehaviour
 		if (_isBusEnter) {
 			return;
 		}
+
+		if (GameManager.Instance.State == GameManager.GameState.INTRO) {
+			return;   
+		}
+
 		//ポーズならリターン
 		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
 			return;   
@@ -299,6 +331,10 @@ public class Player : MonoBehaviour
 
 			return;
 
+		}
+
+		if (GameManager.Instance.State == GameManager.GameState.INTRO) {
+			return;   
 		}
 
 		//ポーズならリターン

@@ -43,15 +43,14 @@ public class CountDownTimer : MonoBehaviour
 		if (time < 0) {
 
 			this.gameOverText.GetComponent<Text> ().text = "遅刻！！！" ;
+			GameManager.Instance.SetState (GameManager.GameState.GAME_OVER);
+	
 
-
-			if (GameManager.Instance.State == GameManager.GameState.GAME_OVER) {
-				return;   
 			}
+
 	
 	}
-
-	}
+		
 
 	//引数に指定した数字の画像を取得する
 	private Sprite GetNumberSprite (int number)
