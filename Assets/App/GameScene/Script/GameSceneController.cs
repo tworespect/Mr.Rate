@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameSceneController : MonoBehaviour {
 
 	public void toGameScene(){
-	SceneManager.LoadScene ("GameScene");
+	SceneManager.LoadScene ("StageSlecteScene");
 
 	}
 

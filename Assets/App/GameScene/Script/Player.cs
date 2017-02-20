@@ -98,6 +98,9 @@ public class Player : MonoBehaviour
 
 	}
 
+
+
+
 	/*
 	void Walk() {
 		animator.SetBool("Ground", true);
@@ -128,7 +131,7 @@ public class Player : MonoBehaviour
 		
 
 			//カードの出現位置をプレイヤーの少し前の位置に設定
-			Vector3 cardPos = transform.TransformPoint (new Vector3 (0.6f, 0)); 
+			Vector3 cardPos = transform.TransformPoint (new Vector3 (0.1f, 0)); 
 			//位置を設定
 			b.transform.position = cardPos;
 

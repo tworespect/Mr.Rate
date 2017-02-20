@@ -10,6 +10,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 	public enum GameState
 	{
 		NONE,
+		INTRO,
 		PLAY,
 		PAUSE,
 		GAME_OVER
@@ -32,7 +33,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 	private void Start ()
 	{
 		//初期状態はPLAY
-		_state = GameState.PLAY;
+		_state = GameState.INTRO;
 	}
 
 	/// <summary>

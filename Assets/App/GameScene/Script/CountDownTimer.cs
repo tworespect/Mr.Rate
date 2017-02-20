@@ -26,7 +26,10 @@ public class CountDownTimer : MonoBehaviour
 	void Update ()
 	{
 
+		if (GameManager.Instance.State != GameManager.GameState.PLAY) {
 
+			return;
+		}
 
 		if (0 < time) {
 			time -= Time.deltaTime;
