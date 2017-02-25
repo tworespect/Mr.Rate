@@ -31,6 +31,12 @@ public class CountDownTimer : MonoBehaviour
 			return;
 		}
 
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
+
+			return;
+		}
+
+
 		if (0 < time) {
 			time -= Time.deltaTime;
 		}

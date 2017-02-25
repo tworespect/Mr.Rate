@@ -18,6 +18,8 @@ public class BusEnemy : EnemyBase {
 	[SerializeField]
 	private float destroyDistance;
 
+
+
 	// Use this for initialization
 	void Start () {
 	
@@ -33,6 +35,20 @@ public class BusEnemy : EnemyBase {
 
 		}
 			
+		if (GameManager.Instance.State == GameManager.GameState.INTRO) {
+			return;   
+		}
+
+		//ポーズならリターン
+		if (GameManager.Instance.State == GameManager.GameState.PAUSE) {
+			return;   
+		}
+		if (GameManager.Instance.State == GameManager.GameState.GAME_OVER) {
+			return;   
+		}
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
+			return;   
+		}
 
 
 		float distance = Vector3.Distance (mainCharacter.transform.position, transform.position);
@@ -45,7 +61,7 @@ public class BusEnemy : EnemyBase {
 			_rigidbody2d.AddForce (Vector2.left * _move2Force);
 
 		}
-
+			
 		if (x > destroyDistance) {
 
 			Destroy (this.gameObject);
@@ -59,7 +75,7 @@ public class BusEnemy : EnemyBase {
 	protected override void _OnTriggerEnter2D (Collider2D other)
 	{
 		base._OnTriggerEnter2D (other);
-
+	
 
 		if (other.gameObject.tag == "MainTag") {
 

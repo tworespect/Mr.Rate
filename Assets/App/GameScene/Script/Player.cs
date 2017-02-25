@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -24,8 +25,6 @@ public class Player : MonoBehaviour
 
 	[SerializeField]
 	private GameObject moneyText;
-	[SerializeField]
-	private int money = 0;
 	[SerializeField]
 	private float _lineLength;
 	[SerializeField]
@@ -72,14 +71,13 @@ public class Player : MonoBehaviour
 	public SpriteRenderer spriteRenderer; 
 
 	[SerializeField]
-	public int RemainCard;
-	[SerializeField]
 	private GameObject cardText;
 
 	[SerializeField]
-	public int playerLife;
-	[SerializeField]
 	private GameObject lifeText;
+	[SerializeField]
+	private GameObject gameClearText;
+
 
 
 
@@ -99,10 +97,12 @@ public class Player : MonoBehaviour
 		this.moneyText = GameObject.Find("MoneyText");
 		this.cardText = GameObject.Find("CardText");
 		this.lifeText = GameObject.Find ("LifeText");
+		this.gameClearText = GameObject.Find ("ClearText");
 
 
-		this.cardText.GetComponent<Text> ().text = this.RemainCard.ToString ();
-		this.lifeText.GetComponent<Text> ().text = ("x") + this.playerLife.ToString ();
+		this.cardText.GetComponent<Text> ().text = UserDataManager.Instance.UserBusinessCardNum.ToString ();
+		this.lifeText.GetComponent<Text> ().text = ("x") + UserDataManager.Instance.UserLife.ToString ();
+		this.moneyText.GetComponent<Text> ().text = UserDataManager.Instance.UserMoney.ToString ();
 	
 		//animator = this.gameObject.GetComponent<Animator>();
 
@@ -137,8 +137,12 @@ public class Player : MonoBehaviour
 			return;   
 		}
 
-		if (0 < RemainCard) {
-			RemainCard -= 1;
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
+			return;   
+		}
+
+		if (0 < UserDataManager.Instance.UserBusinessCardNum) {
+			UserDataManager.Instance.UserBusinessCardNum -= 1;
 			BusinessCard b = Instantiate (_businessCardPrefab);
 		
 
@@ -149,7 +153,7 @@ public class Player : MonoBehaviour
 
 			b.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (800f, 0));
 
-			this.cardText.GetComponent<Text> ().text = this.RemainCard.ToString ();
+			this.cardText.GetComponent<Text> ().text = UserDataManager.Instance.UserBusinessCardNum.ToString ();
 
 		}
 
@@ -162,6 +166,10 @@ public class Player : MonoBehaviour
 	/// </summary>
 	void Update ()
 	{
+
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
+			return;   
+		}
 
 		//バスと衝突したら
 		if (_isBusEnter) {
@@ -221,12 +229,16 @@ public class Player : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other) {
 
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
+			return;   
+		}
+
 		if (other.gameObject.tag == "moneyTag") {
 
 			//お金を加算
-			this.money += 1000;
+			UserDataManager.Instance.UserMoney += 1000;
 
-			this.moneyText.GetComponent<Text> ().text = this.money.ToString ();
+			this.moneyText.GetComponent<Text> ().text = UserDataManager.Instance.UserMoney.ToString ();
 
 			Destroy (other.gameObject);
 
@@ -235,10 +247,20 @@ public class Player : MonoBehaviour
 			_isBusEnter = true;
 			//２秒後にBlinkEndを呼ぶ
 			Invoke ("BlinkEnd", 3.0f);	
+		}else if (other.gameObject.tag == "BuildTag"){
+			
+			this.gameClearText.GetComponent<Text> ().text = "出勤！！" ;
+			Destroy (this.gameObject);
+
+			GameManager.Instance.SetState (GameManager.GameState.CLEAR);
+
+			SceneManager.LoadScene("StageSlectScene");
+
+			//第一引数にクリアしたステージのナンバーを入れる
+			UserDataManager.Instance.StageClear(1);
 		}
 
 
-			
 
 	}
 
@@ -268,6 +290,9 @@ public class Player : MonoBehaviour
 			return;   
 		}
 		if (GameManager.Instance.State == GameManager.GameState.GAME_OVER) {
+			return;   
+		}
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
 			return;   
 		}
 
@@ -342,6 +367,9 @@ public class Player : MonoBehaviour
 			return;      
 		}
 		if (GameManager.Instance.State == GameManager.GameState.GAME_OVER) {
+			return;   
+		}
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
 			return;   
 		}
 

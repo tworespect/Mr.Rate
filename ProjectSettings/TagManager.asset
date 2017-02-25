@@ -18,6 +18,7 @@ TagManager:
   - MainTag
   - EnemyTag
   - CardTag
+  - BuildTag
   layers:
   - Default
   - TransparentFX

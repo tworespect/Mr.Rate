@@ -534,7 +534,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: MR.Rate
+  m_Text: MR.Late
 --- !u!222 &1136467865
 CanvasRenderer:
   m_ObjectHideFlags: 0

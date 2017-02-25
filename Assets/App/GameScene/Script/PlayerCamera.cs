@@ -23,6 +23,10 @@ public class PlayerCamera : MonoBehaviour
 			return;
 
 		}
+		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
+
+			return;
+		}
 
 		transform.localPosition = new Vector3 (
 			_player.transform.localPosition.x +5,

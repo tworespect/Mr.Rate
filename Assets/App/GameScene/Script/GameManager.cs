@@ -13,7 +13,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 		INTRO,
 		PLAY,
 		PAUSE,
-		GAME_OVER
+		GAME_OVER,
+		CLEAR
 	}
 
 

@@ -2,20 +2,22 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class GameSceneController : MonoBehaviour {
+
+
+public class ItemSceneController : MonoBehaviour {
 
 	public void toGameScene(){
-	SceneManager.LoadScene ("StageSlectScene");
+		SceneManager.LoadScene ("ItemScene");
 
 	}
 
+	public void toselecteScene(){
+		SceneManager.LoadScene ("StageSlectScene");
 
-
-
+	}
 
 	// Use this for initialization
 	void Start () {
-
 	
 	}
 	

@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour {
 	// Use this for initialization
 	void OnTriggerEnter2D(Collider2D other)
 	{
-
+		
 
 		_OnTriggerEnter2D (other);
 

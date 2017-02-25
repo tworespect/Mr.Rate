@@ -11,3 +11,5 @@ EditorBuildSettings:
     path: Assets/App/Scene/GameScene.unity
   - enabled: 1
     path: Assets/App/Scene/StageSlecteScene.unity
+  - enabled: 1
+    path: Assets/App/Scene/ItemScene.unity
