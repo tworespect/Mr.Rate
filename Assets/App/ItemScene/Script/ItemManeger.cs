@@ -40,7 +40,7 @@ public class ItemManeger : MonoBehaviour {
 
 	public void LifeBuy(){
 
-		if (30000 < UserDataManager.Instance.UserMoney) {
+		if (30000 <= UserDataManager.Instance.UserMoney) {
 
 			UserDataManager.Instance.UserMoney -= 30000;
 			UserDataManager.Instance.UserLife += 1;
@@ -52,7 +52,7 @@ public class ItemManeger : MonoBehaviour {
 
 	public void CardBuy(){
 
-		if (10000 < UserDataManager.Instance.UserMoney) {
+		if (10000 <= UserDataManager.Instance.UserMoney) {
 
 			UserDataManager.Instance.UserMoney -= 10000;
 			UserDataManager.Instance.UserBusinessCardNum += 100;

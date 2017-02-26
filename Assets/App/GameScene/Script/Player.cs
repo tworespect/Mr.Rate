@@ -291,6 +291,7 @@ public class Player : MonoBehaviour
 		}
 		if (GameManager.Instance.State == GameManager.GameState.GAME_OVER) {
 			return;   
+			_rigidbody2d.AddForce (Vector3.left * _stopForce);
 		}
 		if (GameManager.Instance.State == GameManager.GameState.CLEAR) {
 			return;   

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CountDownTimer : MonoBehaviour
 {
@@ -48,8 +49,12 @@ public class CountDownTimer : MonoBehaviour
 	
 		if (time < 0) {
 
+
 			this.gameOverText.GetComponent<Text> ().text = "遅刻！！！" ;
 			GameManager.Instance.SetState (GameManager.GameState.GAME_OVER);
+			UserDataManager.Instance.UserLife -= 1;
+			SceneManager.LoadScene ("StageSlectScene");
+
 	
 
 			}
